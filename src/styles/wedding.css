@@ -629,6 +629,7 @@ button {
   display: block;
   transform-origin: center bottom;
   backface-visibility: visible;
+  will-change: transform;
   filter: contrast(1.06) saturate(1.1) brightness(1.04)
     drop-shadow(0 8px 14px rgba(18, 3, 6, 0.42));
 }

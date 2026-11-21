@@ -19,9 +19,14 @@ export function useSceneMotion(enabled: boolean): void {
 
     const finePointer = window.matchMedia('(pointer: fine)').matches;
 
+    // Cache section DOM references once (avoids 4x querySelector on every scroll frame)
+    const heroEl = root.querySelector('.hero-section') as HTMLElement | null;
+    const ceremonyEl = root.querySelector('.ceremony-card') as HTMLElement | null;
+    const receptionEl = root.querySelector('.reception-card') as HTMLElement | null;
+    const venueEl = root.querySelector('.venue-section') as HTMLElement | null;
+
     let rafId = 0;
     let scrollDirty = true;
-    let pointerActive = false;
 
     // Smooth damped pointer targets [-1, 1]
     let targetPx = 0;
@@ -31,22 +36,13 @@ export function useSceneMotion(enabled: boolean): void {
 
     // Cached hero scroll progress [0, 1]
     let heroP = 0;
+    let lastTiltKey = '';
 
     const clamp = (v: number, lo: number, hi: number) =>
       Math.max(lo, Math.min(hi, v));
 
     const computeScrollVars = () => {
       const vh = window.innerHeight || 1;
-      const heroEl = root.querySelector('.hero-section') as HTMLElement | null;
-      const ceremonyEl = root.querySelector(
-        '.ceremony-card'
-      ) as HTMLElement | null;
-      const receptionEl = root.querySelector(
-        '.reception-card'
-      ) as HTMLElement | null;
-      const venueEl = root.querySelector(
-        '.venue-section'
-      ) as HTMLElement | null;
 
       if (heroEl) {
         const rect = heroEl.getBoundingClientRect();
@@ -110,17 +106,28 @@ export function useSceneMotion(enabled: boolean): void {
       // Dynamic light sheen across the cream invitation card surface
       const sheenPct = clamp(50 + totalRotY * 5.5 + heroP * 22, 10, 90);
 
-      root.style.setProperty('--hero-tilt-x', `${totalRotX.toFixed(3)}deg`);
-      root.style.setProperty('--hero-tilt-y', `${totalRotY.toFixed(3)}deg`);
-      root.style.setProperty('--hero-sheen', `${sheenPct.toFixed(1)}%`);
-      root.style.setProperty('--scene-px', curPx.toFixed(3));
-      root.style.setProperty('--scene-py', curPy.toFixed(3));
+      const rxStr = `${totalRotX.toFixed(3)}deg`;
+      const ryStr = `${totalRotY.toFixed(3)}deg`;
+      const shStr = `${sheenPct.toFixed(1)}%`;
+      const pxStr = curPx.toFixed(3);
+      const pyStr = curPy.toFixed(3);
+      const tiltKey = `${rxStr}|${ryStr}|${shStr}|${pxStr}|${pyStr}`;
+
+      if (tiltKey !== lastTiltKey) {
+        lastTiltKey = tiltKey;
+        root.style.setProperty('--hero-tilt-x', rxStr);
+        root.style.setProperty('--hero-tilt-y', ryStr);
+        root.style.setProperty('--hero-sheen', shStr);
+        root.style.setProperty('--scene-px', pxStr);
+        root.style.setProperty('--scene-py', pyStr);
+      }
 
       const stillSettling =
         Math.abs(targetPx - curPx) > 0.004 ||
         Math.abs(targetPy - curPy) > 0.004;
 
-      if (scrollDirty || stillSettling || pointerActive) {
+      // Automatically goes 100% idle (0% CPU) once scroll & pointer ease settle
+      if (scrollDirty || stillSettling) {
         rafId = window.requestAnimationFrame(tick);
       }
     };
@@ -139,14 +146,12 @@ export function useSceneMotion(enabled: boolean): void {
 
     const onPointerMove = (e: PointerEvent) => {
       if (!finePointer) return;
-      pointerActive = true;
       targetPx = clamp((e.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2, -1, 1);
       targetPy = clamp((e.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2, -1, 1);
       requestTick();
     };
 
     const onPointerLeave = () => {
-      pointerActive = false;
       targetPx = 0;
       targetPy = 0;
       requestTick();

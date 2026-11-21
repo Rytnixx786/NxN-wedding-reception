@@ -46,10 +46,6 @@ function getMaxScroll(): number {
 function setScrollTopInstant(y: number): void {
   const el = document.scrollingElement || document.documentElement;
   el.scrollTop = y;
-  if (Math.abs(getScrollTop() - y) > 2) {
-    // 2-arg scrollTo works universally including older iOS Safari (< 15.4)
-    window.scrollTo(0, y);
-  }
 }
 
 export function useAutoScroll({
@@ -200,7 +196,7 @@ export function useAutoScroll({
 
       const nextY = virtualYRef.current;
       setScrollTopInstant(nextY);
-      lastAppliedYRef.current = getScrollTop();
+      lastAppliedYRef.current = nextY;
 
       rafRef.current = window.requestAnimationFrame(step);
     };

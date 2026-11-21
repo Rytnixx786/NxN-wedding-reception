@@ -28,7 +28,7 @@ export function VenueSection() {
           <iframe
             className="venue-map-iframe"
             title={`${venue.hallName} Location Map`}
-            loading="eager"
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src={venue.mapEmbedUrl}
             allowFullScreen

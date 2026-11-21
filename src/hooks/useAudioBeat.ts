@@ -88,7 +88,6 @@ export function useAudioBeat({
         target.style.setProperty('--beat-scale', '1');
         target.style.setProperty('--beat-glow', '0');
       }
-      document.documentElement.style.setProperty('--music-beat', '0');
       return;
     }
 
@@ -218,10 +217,6 @@ export function useAudioBeat({
         );
         el.style.setProperty('--beat-glow', smoothBeat.toFixed(3));
       }
-      document.documentElement.style.setProperty(
-        '--music-beat',
-        smoothBeat.toFixed(3)
-      );
 
       rafId = window.requestAnimationFrame(tick);
     };
