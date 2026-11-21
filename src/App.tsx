@@ -310,12 +310,12 @@ export function App() {
         isOpen={rsvpModalOpen}
         savedRsvp={savedRsvp}
         onClose={() => setRsvpModalOpen(false)}
-        onSaved={(record, mode) => {
+        onSaved={(record) => {
           setSavedRsvp(record);
           showGlobalToast(
-            mode === 'supabase'
-              ? 'RSVP confirmed & saved! Thank you.'
-              : 'RSVP saved locally (preview mode).'
+            record.attendance === 'attending'
+              ? 'RSVP confirmed! We look forward to celebrating with you.'
+              : 'Thank you for letting us know!'
           );
         }}
       />

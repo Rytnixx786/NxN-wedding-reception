@@ -3,7 +3,6 @@ import { Check, X } from 'lucide-react';
 import { weddingConfig } from '../config/wedding';
 import {
   AttendanceStatus,
-  isSupabaseConfigured,
   RsvpSubmission,
   submitRsvp,
 } from '../services/rsvpService';
@@ -12,7 +11,7 @@ interface RsvpModalProps {
   isOpen: boolean;
   savedRsvp: RsvpSubmission | null;
   onClose: () => void;
-  onSaved: (record: RsvpSubmission, mode: 'supabase' | 'local-preview') => void;
+  onSaved: (record: RsvpSubmission) => void;
 }
 
 export function RsvpModal({
@@ -22,7 +21,6 @@ export function RsvpModal({
   onSaved,
 }: RsvpModalProps) {
   const { couple, rsvp } = weddingConfig;
-  const backendReady = isSupabaseConfigured();
 
   const [view, setView] = useState<'form' | 'receipt'>('form');
   const [name, setName] = useState('');
@@ -33,9 +31,6 @@ export function RsvpModal({
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastMode, setLastMode] = useState<'supabase' | 'local-preview'>(
-    backendReady ? 'supabase' : 'local-preview'
-  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -83,8 +78,7 @@ export function RsvpModal({
         side,
         message: message.trim(),
       });
-      setLastMode(result.mode);
-      onSaved(result.record, result.mode);
+      onSaved(result.record);
       setView('receipt');
     } catch (err) {
       setError(
@@ -262,13 +256,6 @@ export function RsvpModal({
               >
                 {submitting ? 'SENDING...' : 'SEND CONFIRMATION'}
               </button>
-
-              {!backendReady && (
-                <p className="dev-storage-hint">
-                  Local preview mode: saved on this browser. Configure Supabase in{' '}
-                  <code>.env</code> to collect shared guest RSVPs online.
-                </p>
-              )}
             </form>
           </div>
         ) : (
@@ -314,13 +301,6 @@ export function RsvpModal({
                 </div>
               )}
             </div>
-
-            {lastMode === 'local-preview' && !backendReady && (
-              <p className="dev-storage-hint" style={{ marginBottom: 16 }}>
-                Saved locally in this browser (development fallback). Connect
-                Supabase via <code>.env</code> for live multi-guest storage.
-              </p>
-            )}
 
             <div className="success-actions">
               <button
