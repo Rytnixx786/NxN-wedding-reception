@@ -1,0 +1,30 @@
+# Dependencies & build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Agent skills, internal prompts & local reference media
+.agents/
+docs/
+prompt-for-check.md
+reference-wedding-video.mp4
+reception-card-full.jpeg
+*.mp4
+*.mov
+
+# Unused raw PNG copies (optimized WebP assets are tracked)
+public/images/*.png
+
+# Logs & OS/editor files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
