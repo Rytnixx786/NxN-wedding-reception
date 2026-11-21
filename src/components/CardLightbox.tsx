@@ -26,7 +26,6 @@ export function CardLightbox({ isOpen, onClose }: CardLightboxProps) {
     if (!isOpen) return;
     const stage = stageRef.current;
     if (!stage) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const finePointer = window.matchMedia('(pointer: fine)').matches;
     let targetX = 0;

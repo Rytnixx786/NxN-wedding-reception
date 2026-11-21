@@ -10,10 +10,13 @@ import { Footer } from './components/Footer';
 import { MusicPlayer } from './components/MusicPlayer';
 import { RsvpModal } from './components/RsvpModal';
 import { CardLightbox } from './components/CardLightbox';
+import { AmbientLovesCanvas } from './components/AmbientLovesCanvas';
 import { loadLocalRsvp, RsvpSubmission } from './services/rsvpService';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import { useSceneMotion } from './hooks/useSceneMotion';
 import { useAssetPreload } from './hooks/useAssetPreload';
+import { useAudioBeat } from './hooks/useAudioBeat';
+import { useGsapChoreography } from './hooks/useGsapChoreography';
 
 export function App() {
   const openDirect =
@@ -35,7 +38,9 @@ export function App() {
     openDirect ? 'dismissed' : 'idle'
   );
   const [heroRevealed, setHeroRevealed] = useState<boolean>(openDirect);
-  const [autoScrollSignal, setAutoScrollSignal] = useState<number>(0);
+  const [autoScrollSignal, setAutoScrollSignal] = useState<number>(
+    openDirect ? 1 : 0
+  );
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [musicToast, setMusicToast] = useState<string | null>(null);
@@ -48,12 +53,20 @@ export function App() {
   );
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const musicBtnRef = useRef<HTMLButtonElement | null>(null);
   const fadeRafRef = useRef<number>(0);
   const musicToastTimer = useRef<number | null>(null);
   const globalToastTimer = useRef<number | null>(null);
   const stageTimersRef = useRef<number[]>([]);
 
   const introDismissed = curtainStage === 'dismissed';
+
+  // Live audio-reactive equalizer & rhythmic heartbeat on the music FAB
+  const { ensureAnalyser } = useAudioBeat({
+    audioRef,
+    targetRef: musicBtnRef,
+    isPlaying,
+  });
 
   const clearStageTimers = useCallback(() => {
     stageTimersRef.current.forEach((id) => window.clearTimeout(id));
@@ -79,13 +92,16 @@ export function App() {
     }
   }, []);
 
-  // Synchronous play() inside user gesture + smooth 1.2s ease-out volume swell
+  // Synchronous play() inside user gesture + Web Audio beat analyser + smooth volume swell
   const startMusic = useCallback(
-    (withFade = true) => {
+    (withFade = true, fromUserGesture = false) => {
       const audio = audioRef.current;
       if (!audio) return;
 
       cancelAudioFade();
+      if (fromUserGesture) {
+        ensureAnalyser(true);
+      }
       const targetVol = weddingConfig.music.defaultVolume;
 
       try {
@@ -130,14 +146,14 @@ export function App() {
           });
       }
     },
-    [cancelAudioFade, showMusicToast]
+    [cancelAudioFade, ensureAnalyser, showMusicToast]
   );
 
   const toggleMusic = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
-      startMusic(false);
+      startMusic(false, true);
     } else {
       cancelAudioFade();
       audio.pause();
@@ -146,41 +162,31 @@ export function App() {
     }
   }, [cancelAudioFade, startMusic, showMusicToast]);
 
-  // 4-Stage Seamless Splash -> Twin Velvet Silk Curtain Reveal -> Synchronized 3D Hero -> Auto-Scroll
+  // 4-Stage Seamless Opening Card -> Twin Velvet Silk Curtain Reveal -> GSAP 3D Hero -> Auto-Scroll
   const handleTriggerOpen = useCallback(() => {
     if (curtainStage !== 'idle') return;
     clearStageTimers();
 
-    // Always start from exact top of page cleanly
+    // Always begin from exact top of page cleanly
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
 
     // Start Bismillah synchronously inside the user gesture with smooth swell
-    startMusic(true);
+    startMusic(true, true);
 
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-    if (reducedMotion) {
-      setCurtainStage('dismissed');
-      setHeroRevealed(true);
-      return;
-    }
-
-    // Stage 1: Wax seal press + 3D radial gold/heart burst (0ms -> 240ms)
+    // Stage 1: Heart seal bloom + cream card 3D lift + radial 3D hearts burst (0ms -> 260ms)
     setCurtainStage('unsealing');
 
-    // Stage 2: Twin velvet silk curtains part with glowing gold trim (240ms)
+    // Stage 2: Twin velvet silk curtains sweep open with antique-gold edge glow (260ms)
     const tPart = window.setTimeout(() => {
       setCurtainStage('parting');
-    }, 240);
+    }, 260);
 
-    // Stage 3: Synchronized 3D Hero Envelope + Bouquet + Card entrance (500ms)
+    // Stage 3: Synchronized GSAP 3D Hero Envelope + Living Bouquet + Card entrance (520ms)
     const tHero = window.setTimeout(() => {
       setHeroRevealed(true);
-    }, 500);
+    }, 520);
 
-    // Stage 4: Complete dismissal & unmount splash canvas + trigger guided slow scroll (1460ms)
+    // Stage 4: Complete dismissal & unmount cover canvas + trigger guided auto-scroll (1460ms)
     const tDismiss = window.setTimeout(() => {
       setCurtainStage('dismissed');
       setAutoScrollSignal((n) => n + 1);
@@ -189,16 +195,23 @@ export function App() {
     stageTimersRef.current = [tPart, tHero, tDismiss];
   }, [curtainStage, clearStageTimers, startMusic]);
 
-  // Reliable cinematic slow auto-scroll (~1.5s after curtains finish parting)
-  const { isAutoScrolling, toggleAutoScroll, stopAutoScroll } = useAutoScroll({
+  // Automatic smooth guided scroll whenever the guest enters (no manual auto-scroll button)
+  const { stopAutoScroll } = useAutoScroll({
     autoStartSignal: autoScrollSignal,
     blocked: !introDismissed || rsvpModalOpen || cardLightboxOpen,
-    startDelayMs: 1500,
-    cruiseSpeedPxPerSec: 46,
+    startDelayMs: openDirect ? 1000 : 850,
+    cruiseSpeedPxPerSec: 48,
   });
 
   // Unified 60fps 3D Scroll + Pointer Motion Engine (zero React re-renders)
   useSceneMotion(introDismissed);
+
+  // Premium GSAP + ScrollTrigger Entrance & Living Bouquet Choreography
+  useGsapChoreography({
+    heroRevealed,
+    introDismissed,
+    skipEntrance: openDirect,
+  });
 
   // Body scroll lock ONLY when splash or modal is active
   useEffect(() => {
@@ -208,31 +221,6 @@ export function App() {
       document.documentElement.classList.remove('scroll-locked');
     };
   }, [introDismissed, rsvpModalOpen, cardLightboxOpen]);
-
-  // Scroll-reveal observer for Ceremony, Reception, Venue & Footer
-  useEffect(() => {
-    if (!introDismissed) return;
-    const items = Array.from(document.querySelectorAll('.reveal-item'));
-    if (openDirect || !('IntersectionObserver' in window)) {
-      items.forEach((el) => el.classList.add('is-visible'));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
-    );
-
-    items.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [introDismissed, openDirect]);
 
   // Attempt audio on direct-open preview if browser permits
   useEffect(() => {
@@ -271,8 +259,17 @@ export function App() {
         onTriggerOpen={handleTriggerOpen}
       />
 
+      <AmbientLovesCanvas active={introDismissed} />
+
       <main
-        className={`invitation-page${!introDismissed && curtainStage === 'idle' ? ' is-behind-splash' : ''}`}
+        className={[
+          'invitation-page',
+          !introDismissed && curtainStage === 'idle' ? 'is-behind-splash' : '',
+          heroRevealed ? 'is-hero-revealed' : '',
+          openDirect ? 'is-hero-instant' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
         id="invitationMain"
       >
         <div className="paper-grain" aria-hidden="true" />
@@ -301,12 +298,10 @@ export function App() {
       </main>
 
       <MusicPlayer
+        ref={musicBtnRef}
         isPlaying={isPlaying}
         toastText={musicToast}
         onToggle={toggleMusic}
-        showAutoScrollControl={introDismissed}
-        isAutoScrolling={isAutoScrolling}
-        onToggleAutoScroll={toggleAutoScroll}
       />
 
       <RsvpModal

@@ -13,7 +13,6 @@ import { useEffect } from 'react';
 export function useSceneMotion(enabled: boolean): void {
   useEffect(() => {
     if (!enabled) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const root = document.getElementById('invitationMain');
     if (!root) return;
@@ -99,14 +98,14 @@ export function useSceneMotion(enabled: boolean): void {
 
       // Combine scroll-driven 3D angle + gentle desktop pointer tilt
       const isCompact = window.innerWidth < 768;
-      const scrollRotX = heroP * (isCompact ? 4.2 : 6.4);
-      const scrollRotY = heroP * (isCompact ? -2.2 : -3.4);
+      const scrollRotX = heroP * (isCompact ? 2.6 : 4.2);
+      const scrollRotY = heroP * (isCompact ? -1.4 : -2.4);
 
-      const pointerRotX = finePointer ? -curPy * 4.2 : 0;
-      const pointerRotY = finePointer ? curPx * 4.8 : 0;
+      const pointerRotX = finePointer ? -curPy * 3.8 : 0;
+      const pointerRotY = finePointer ? curPx * 4.4 : 0;
 
-      const totalRotX = clamp(scrollRotX + pointerRotX, -6.5, 9.5);
-      const totalRotY = clamp(scrollRotY + pointerRotY, -7, 7);
+      const totalRotX = clamp(scrollRotX + pointerRotX, -5.5, 6.8);
+      const totalRotY = clamp(scrollRotY + pointerRotY, -6.2, 6.2);
 
       // Dynamic light sheen across the cream invitation card surface
       const sheenPct = clamp(50 + totalRotY * 5.5 + heroP * 22, 10, 90);
@@ -114,6 +113,8 @@ export function useSceneMotion(enabled: boolean): void {
       root.style.setProperty('--hero-tilt-x', `${totalRotX.toFixed(3)}deg`);
       root.style.setProperty('--hero-tilt-y', `${totalRotY.toFixed(3)}deg`);
       root.style.setProperty('--hero-sheen', `${sheenPct.toFixed(1)}%`);
+      root.style.setProperty('--scene-px', curPx.toFixed(3));
+      root.style.setProperty('--scene-py', curPy.toFixed(3));
 
       const stillSettling =
         Math.abs(targetPx - curPx) > 0.004 ||
@@ -138,15 +139,6 @@ export function useSceneMotion(enabled: boolean): void {
 
     const onPointerMove = (e: PointerEvent) => {
       if (!finePointer) return;
-      const heroEl = root.querySelector('.hero-section') as HTMLElement | null;
-      if (!heroEl) return;
-      const rect = heroEl.getBoundingClientRect();
-      if (rect.bottom < 0) {
-        pointerActive = false;
-        targetPx = 0;
-        targetPy = 0;
-        return;
-      }
       pointerActive = true;
       targetPx = clamp((e.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2, -1, 1);
       targetPy = clamp((e.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2, -1, 1);

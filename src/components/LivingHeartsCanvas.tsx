@@ -295,9 +295,8 @@ export const LivingHeartsCanvas = forwardRef<
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    // Always animate living 3D floating hearts so the burgundy cover stays alive
+    const reducedMotion = false;
 
     // Pre-bake 4 materials x 3 DoF tiers (init-time only)
     const blurTiers = [4.5, 0, 1.4]; // 0 = far bokeh, 1 = mid crisp, 2 = fore near-soft

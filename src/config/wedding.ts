@@ -30,7 +30,7 @@ export interface WeddingConfig {
   };
   parents: {
     groomPrefix: string;
-    groomFamilyLine: string;
+    groomLines: string[];
     bridePrefix: string;
     brideLines: string[];
   };
@@ -90,6 +90,8 @@ export interface WeddingConfig {
     saveTheDateLabel: string;
     introKicker: string;
     introDateLine: string;
+    introCardDate: string;
+    introCordiallyLabel: string;
     openButtonLabel: string;
     musicHintLabel: string;
     tapCardHint: string;
@@ -159,7 +161,7 @@ export const weddingConfig: WeddingConfig = {
 
   parents: {
     groomPrefix: 'Mr. & Mrs.',
-    groomFamilyLine: 'Kaikubad',
+    groomLines: ['Kaikubad', 'Khaleda Haque'],
     bridePrefix: 'Mr. & Mrs.',
     brideLines: ['S.M Manzurul Islam', 'Late Kamrun Nahar'],
   },
@@ -247,7 +249,9 @@ export const weddingConfig: WeddingConfig = {
     saveTheDateLabel: 'SAVE THE DATE',
     introKicker: 'THE WEDDING CELEBRATION OF',
     introDateLine: 'TUESDAY · JANUARY 19, 2027',
-    openButtonLabel: 'OPEN INVITATION',
+    introCardDate: 'January 19, 2027',
+    introCordiallyLabel: 'Cordially Invites',
+    openButtonLabel: 'Open',
     musicHintLabel: 'Tap to enter with music',
     tapCardHint: 'Tap card to read',
   },

@@ -1,5 +1,6 @@
 import { weddingConfig } from '../config/wedding';
 import { InvitationCardArt } from './InvitationCardArt';
+import { LivingBouquet } from './LivingBouquet';
 
 interface HeroSectionProps {
   heroRevealed: boolean;
@@ -25,17 +26,22 @@ export function HeroSection({
   return (
     <header className={heroClass}>
       <div className="palace-backdrop" aria-hidden="true">
-        <img src={assets.palaceBackdrop} alt="" className="palace-img" />
+        <img
+          src={assets.palaceBackdrop}
+          alt=""
+          className="palace-img"
+          data-gsap="hero-palace"
+        />
       </div>
 
-      <p className="save-the-date hero-stagger hero-stagger-1">
+      <p className="save-the-date" data-gsap="hero-save">
         {hero.saveTheDateLabel}
       </p>
 
       {/* Unified 3D Perspective Stationery Stage:
-          Envelope, Floral Bouquet, Invitation Card & Wax Seal share ONE
-          preserve-3d rig & coordinated scroll/pointer timeline */}
-      <div className="envelope-stage hero-stagger hero-stagger-2">
+          Envelope, Living 3D Bouquet, Real Reception Card & Wax Seal share ONE
+          preserve-3d rig & coordinated GSAP + scroll/pointer timeline */}
+      <div className="envelope-stage" data-gsap="hero-envelope">
         <button
           type="button"
           className="envelope-interactive"
@@ -55,17 +61,12 @@ export function HeroSection({
             <div className="env-body-back" aria-hidden="true" />
 
             {/* Coordinated Bouquet + Card Insert Group (moves together in unison!) */}
-            <div className="env-insert-group">
+            <div className="env-insert-group" data-gsap="hero-insert">
               {/* Depth Layer 2 (Z = 14px): Physical Islamic Wedding Card */}
               <InvitationCardArt variant="envelope" />
 
-              {/* Depth Layer 3 (Z = 26px): Tucked Burgundy & Ivory Floral Bouquet */}
-              <img
-                src={assets.floralBouquet}
-                alt=""
-                className="env-floral-cluster"
-                aria-hidden="true"
-              />
+              {/* Depth Layer 3 (Z = 26px): Living 3D Burgundy & Ivory Floral Bouquet */}
+              <LivingBouquet variant="envelope" />
             </div>
 
             {/* Depth Layer 4 (Z = 36px): Velvet burgundy V-fold front pocket */}
@@ -121,11 +122,14 @@ export function HeroSection({
             </div>
 
             {/* Depth Layer 5 (Z = 48px): Embossed Antique-Gold Heart Wax Seal */}
-            <img
-              src={assets.waxSeal}
-              alt="Embossed gold heart wax seal"
-              className="env-wax-seal"
-            />
+            <div className="env-wax-seal-wrap" data-gsap="hero-seal">
+              <img
+                src={assets.waxSeal}
+                alt="Embossed gold heart wax seal"
+                className="env-wax-seal"
+              />
+              <span className="env-wax-sheen" aria-hidden="true" />
+            </div>
           </div>
 
           <span className="card-tap-badge">{hero.tapCardHint}</span>
@@ -133,13 +137,17 @@ export function HeroSection({
       </div>
 
       {/* Couple Monogram with staggered editorial reveal */}
-      <div className="couple-monogram hero-stagger hero-stagger-3">
-        <span className="monogram-amp" aria-hidden="true">
+      <div className="couple-monogram">
+        <span className="monogram-amp" data-gsap="hero-amp" aria-hidden="true">
           &amp;
         </span>
         <h1 className="monogram-names">
-          <span className="monogram-first">{couple.groomShortName}</span>
-          <span className="monogram-second">{couple.brideShortName}</span>
+          <span className="monogram-first" data-gsap="hero-name-first">
+            {couple.groomShortName}
+          </span>
+          <span className="monogram-second" data-gsap="hero-name-second">
+            {couple.brideShortName}
+          </span>
         </h1>
       </div>
     </header>

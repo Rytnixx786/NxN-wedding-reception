@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Calendar, Download, ExternalLink } from 'lucide-react';
 import { weddingConfig } from '../config/wedding';
 import {
@@ -8,6 +8,7 @@ import {
 } from '../utils/calendar';
 import type { RsvpSubmission } from '../services/rsvpService';
 import { useCountdown } from '../hooks/useCountdown';
+import { LivingBouquet } from './LivingBouquet';
 
 interface ReceptionInfoProps {
   savedRsvp: RsvpSubmission | null;
@@ -24,7 +25,7 @@ export function ReceptionInfo({
   onNotify,
   onUserInteract,
 }: ReceptionInfoProps) {
-  const { reception, rsvp, assets } = weddingConfig;
+  const { reception, rsvp } = weddingConfig;
   const countdown = useCountdown(reception.dateIsoStart);
   const [calMenuOpen, setCalMenuOpen] = useState(false);
   const popoverWrapRef = useRef<HTMLDivElement | null>(null);
@@ -99,40 +100,26 @@ export function ReceptionInfo({
 
   return (
     <section className="card-section" aria-labelledby="receptionHeading">
-      <div className="burgundy-card reception-card reveal-item">
-        <img
-          src={assets.floralBouquet}
-          alt=""
-          className="card-floral card-floral-left"
-          aria-hidden="true"
+      <div className="burgundy-card reception-card gsap-card">
+        <LivingBouquet
+          variant="reception-left"
+          className="gsap-bouquet-reveal"
         />
 
-        <h2
-          id="receptionHeading"
-          className="card-title stagger-child"
-          style={{ '--i': 0 } as CSSProperties}
-        >
+        <h2 id="receptionHeading" className="card-title gsap-stagger">
           {reception.sectionTitle}
         </h2>
 
-        <p
-          className="reception-subtitle stagger-child"
-          style={{ '--i': 1 } as CSSProperties}
-        >
-          {reception.subtitle}
-        </p>
+        <p className="reception-subtitle gsap-stagger">{reception.subtitle}</p>
 
-        <div
-          className="event-datetime stagger-child"
-          style={{ '--i': 2 } as CSSProperties}
-        >
+        <div className="event-datetime gsap-stagger">
           <div className="datetime-row-top">
             <span className="dt-meta dt-left">{reception.displayTime}</span>
             <span className="dt-meta dt-right">{reception.displayWeekday}</span>
           </div>
           <div className="datetime-row-main">
             <span className="dt-day-big">{reception.displayDay}</span>
-            <span className="dt-divider stagger-divider" aria-hidden="true" />
+            <span className="dt-divider gsap-divider" aria-hidden="true" />
             <div className="dt-month-year">
               <span className="dt-month">{reception.displayMonth}</span>
               <span className="dt-year">{reception.displayYear}</span>
@@ -140,10 +127,7 @@ export function ReceptionInfo({
           </div>
         </div>
 
-        <div
-          className="countdown-block stagger-child"
-          style={{ '--i': 3 } as CSSProperties}
-        >
+        <div className="countdown-block gsap-stagger">
           <p className="countdown-label">Countdown</p>
           <p className="countdown-value" id="countdownTimer" aria-live="polite">
             {countdown.inlineText}
@@ -152,8 +136,7 @@ export function ReceptionInfo({
 
         {/* January 2027 Calendar Card */}
         <div
-          className="calendar-widget stagger-child"
-          style={{ '--i': 4 } as CSSProperties}
+          className="calendar-widget gsap-stagger"
           aria-label={`${monthHeading} calendar highlighting ${reception.displayWeekday} ${reception.displayDay}`}
         >
           <p className="calendar-month-script">{monthHeading}</p>
@@ -194,8 +177,7 @@ export function ReceptionInfo({
 
         {/* Add to Calendar Popover */}
         <div
-          className="calendar-action-wrap stagger-child"
-          style={{ '--i': 5 } as CSSProperties}
+          className="calendar-action-wrap gsap-stagger"
           ref={popoverWrapRef}
         >
           <button
@@ -250,8 +232,7 @@ export function ReceptionInfo({
         {/* Confirm Attendance CTA */}
         <button
           type="button"
-          className={`confirm-btn stagger-child${savedRsvp ? ' is-confirmed' : ''}`}
-          style={{ '--i': 6 } as CSSProperties}
+          className={`confirm-btn gsap-stagger${savedRsvp ? ' is-confirmed' : ''}`}
           id="openRsvpBtn"
           onClick={() => {
             onUserInteract?.();
