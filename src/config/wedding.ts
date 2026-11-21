@@ -84,6 +84,7 @@ export interface WeddingConfig {
     palaceBackdrop: string;
     floralBouquet: string;
     waxSeal: string;
+    receptionCard: string;
   };
   hero: {
     saveTheDateLabel: string;
@@ -101,6 +102,7 @@ export interface WeddingConfig {
     buttonLabel: string;
     modalTitle: string;
     modalDescription: string;
+    contactPhone: string;
     allowGuestCount: boolean;
     allowDietaryOrMessage: boolean;
     guestSides: string[];
@@ -238,6 +240,7 @@ export const weddingConfig: WeddingConfig = {
     palaceBackdrop: '/images/palace-bg.webp',
     floralBouquet: '/images/floral-bouquet-cutout.webp',
     waxSeal: '/images/wax-seal-cutout.webp',
+    receptionCard: '/images/reception-card-full.webp',
   },
 
   hero: {
@@ -259,6 +262,7 @@ export const weddingConfig: WeddingConfig = {
     modalTitle: 'CONFIRM ATTENDANCE',
     modalDescription:
       'Kindly let us know if you will be joining us at Anchor Hall, RAOWA Convention Hall.',
+    contactPhone: '01911-188249',
     allowGuestCount: true,
     allowDietaryOrMessage: true,
     guestSides: [

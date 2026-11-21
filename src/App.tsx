@@ -25,6 +25,7 @@ export function App() {
       weddingConfig.assets.palaceBackdrop,
       weddingConfig.assets.floralBouquet,
       weddingConfig.assets.waxSeal,
+      weddingConfig.assets.receptionCard,
     ],
     []
   );

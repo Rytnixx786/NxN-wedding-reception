@@ -127,7 +127,15 @@ export function RsvpModal({
             <h3 id="rsvpModalTitle" className="modal-title">
               {rsvp.modalTitle}
             </h3>
-            <p className="modal-desc">{rsvp.modalDescription}</p>
+            <p className="modal-desc">
+              {rsvp.modalDescription}{' '}
+              <span className="modal-rsvp-phone">
+                Direct RSVP:{' '}
+                <a href={`tel:${rsvp.contactPhone.replace(/[^0-9+]/g, '')}`}>
+                  {rsvp.contactPhone}
+                </a>
+              </span>
+            </p>
 
             <form id="rsvpForm" className="rsvp-form" onSubmit={handleSubmit} noValidate>
               <div className="form-field">

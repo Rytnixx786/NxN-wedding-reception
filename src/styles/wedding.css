@@ -789,34 +789,57 @@ button {
   transform: translate3d(0, calc(-8px + var(--hero-p, 0) * -12px), 6px) scale(1.015);
 }
 
-/* Depth Layer 2 (Z = 14px): Physical Islamic Wedding Card with cotton-paper rim */
+/* Depth Layer 2 (Z = 14px): Real Printed Reception Card with cotton-paper rim */
 .physical-card--envelope {
   position: absolute;
-  width: 53%;
-  right: 12.5%;
-  top: -13.5%;
+  width: 54%;
+  right: 11.5%;
+  top: -15.5%;
   z-index: 3;
   background: #fffdf9;
-  padding: 5px;
+  padding: 4.5px;
   border-radius: 2px;
   box-shadow:
     1px 1px 0 #e6d9c5,
     2px 2px 0 #d8c6ac,
-    0 12px 26px rgba(38, 6, 11, 0.28);
-  transform: translateZ(14px) rotate(9.5deg);
+    0 12px 26px rgba(38, 6, 11, 0.3);
+  transform: translateZ(14px) rotate(10deg);
   transform-origin: center bottom;
-  clip-path: inset(-10px -10px 14% -10px);
+  clip-path: inset(-10px -10px 15% -10px);
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .envelope-interactive:hover .physical-card--envelope,
 .envelope-interactive:focus-visible .physical-card--envelope {
-  transform: translateZ(18px) rotate(8.2deg);
+  transform: translateZ(18px) rotate(8.5deg);
   box-shadow:
     1px 1px 0 #e6d9c5,
     2px 2px 0 #d8c6ac,
-    0 18px 34px rgba(38, 6, 11, 0.34);
+    0 18px 34px rgba(38, 6, 11, 0.36);
+}
+
+.real-card-surface {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1px;
+  background: #faf3e4;
+}
+
+.real-card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.card-foil-edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: inset 0 0 0 1px rgba(212, 174, 102, 0.35);
 }
 
 .card-specular-sheen {
@@ -826,9 +849,9 @@ button {
   z-index: 4;
   background: linear-gradient(
     118deg,
-    transparent calc(var(--hero-sheen, 50%) - 26%),
-    rgba(255, 248, 224, 0.34) var(--hero-sheen, 50%),
-    transparent calc(var(--hero-sheen, 50%) + 26%)
+    transparent calc(var(--hero-sheen, 50%) - 24%),
+    rgba(255, 248, 224, 0.38) var(--hero-sheen, 50%),
+    transparent calc(var(--hero-sheen, 50%) + 24%)
   );
   mix-blend-mode: soft-light;
 }
@@ -2191,6 +2214,20 @@ button {
   margin-bottom: 20px;
 }
 
+.modal-rsvp-phone {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.84rem;
+  color: var(--burgundy);
+}
+
+.modal-rsvp-phone a {
+  color: var(--burgundy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .rsvp-form {
   display: flex;
   flex-direction: column;
@@ -2395,17 +2432,21 @@ button {
   padding: 4px 10px;
 }
 
-/* Full Invitation Card Lightbox */
+/* Full Living-3D Invitation Card Lightbox */
 .card-lightbox-sheet {
   max-width: 440px;
+  max-height: 94dvh;
   background: transparent;
   overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-lightbox-close {
   top: -12px;
   right: -6px;
-  z-index: 10;
+  z-index: 12;
   background: var(--burgundy);
   color: var(--ivory);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
@@ -2415,110 +2456,67 @@ button {
   background: #671922;
 }
 
+.card-lightbox-slot {
+  width: 100%;
+  perspective: 1200px;
+}
+
+.lightbox-3d-tilt {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--lb-rot-x, 0deg)) rotateY(var(--lb-rot-y, 0deg));
+  will-change: transform;
+}
+
 .physical-card--lightbox {
   position: relative;
   width: 100%;
   background: #fffdf9;
-  padding: 12px;
+  padding: 9px;
   border-radius: 8px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 2px 0 #e6d9c5,
+    0 4px 0 #d5c2a4,
+    0 28px 64px rgba(18, 3, 5, 0.56);
 }
 
-.physical-card--lightbox .card-inner-frame {
-  padding: clamp(20px, 5vw, 30px) clamp(16px, 4vw, 24px) clamp(24px, 5vw, 32px);
-}
-
-.physical-card--lightbox .card-corner-floral {
-  width: 112px;
-}
-
-.physical-card--lightbox .card-corner-lanterns {
-  width: 74px;
-}
-
-.physical-card--lightbox .card-bismillah {
-  font-size: clamp(1.2rem, 4.5vw, 1.52rem);
-  margin-bottom: 6px;
-}
-
-.physical-card--lightbox .card-quote {
-  font-size: clamp(0.76rem, 2.5vw, 0.88rem);
-  margin-bottom: 10px;
-}
-
-.physical-card--lightbox .card-host {
-  font-size: clamp(0.8rem, 2.6vw, 0.92rem);
-  margin-bottom: 12px;
-}
-
-.physical-card--lightbox .card-script-name {
-  font-size: clamp(1.72rem, 6vw, 2.15rem);
-  margin: 4px 0;
-}
-
-.physical-card--lightbox .card-with {
-  font-size: 0.88rem;
-  margin: 4px auto;
-}
-
-.physical-card--lightbox .card-daughter {
-  font-size: clamp(0.76rem, 2.5vw, 0.88rem);
-  margin-top: 6px;
-}
-
-.physical-card--lightbox .card-flourish {
-  margin: 10px auto;
-  font-size: 0.78rem;
-}
-
-.physical-card--lightbox .card-month {
-  font-size: 1.04rem;
-}
-
-.physical-card--lightbox .card-day-line {
-  font-size: 1rem;
-  gap: 10px;
-}
-
-.physical-card--lightbox .card-day-num {
-  font-size: 1.6rem;
-}
-
-.physical-card--lightbox .card-time {
-  font-size: 0.96rem;
-  margin-top: 2px;
-}
-
-.physical-card--lightbox .card-venue-block {
-  font-size: 0.86rem;
-}
-
-.physical-card--lightbox .card-venue-block strong {
-  font-size: 0.94rem;
+.physical-card--lightbox .real-card-img {
+  max-height: 76dvh;
+  width: 100%;
+  object-fit: contain;
 }
 
 .lightbox-footer-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 8px;
   margin-top: 14px;
 }
 
 .lightbox-print-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 7px;
+  padding: 9px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(228, 197, 131, 0.45);
+  border: 1px solid rgba(228, 197, 131, 0.5);
   background: var(--burgundy);
   color: var(--ivory);
-  font-size: 0.84rem;
-  letter-spacing: 0.06em;
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .lightbox-print-btn:hover {
   background: #61171f;
+  transform: translateY(-1px);
+}
+
+.lightbox-print-btn--ghost {
+  background: rgba(58, 12, 18, 0.84);
+  backdrop-filter: blur(6px);
 }
 
 /* Global Toast */
