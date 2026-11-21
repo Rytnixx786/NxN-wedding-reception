@@ -252,12 +252,6 @@ button {
 .intro-card-rig {
   position: relative;
   width: min(90vw, 550px);
-  transform-style: preserve-3d;
-  transform:
-    rotateX(var(--intro-rx, 0deg))
-    rotateY(var(--intro-ry, 0deg));
-  will-change: transform;
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .intro-curtain.is-unsealing .intro-card-stage {
@@ -286,18 +280,17 @@ button {
   }
 }
 
-/* Double-Bezel Warm Cream Physical Stationery Card */
+/* Double-Bezel Warm Cream Physical Stationery Card (zero Z-scale -> razor-sharp text) */
 .intro-card-shell {
   position: relative;
   z-index: 2;
   padding: 5px;
   border-radius: 14px;
-  background: linear-gradient(145deg, rgba(255, 250, 244, 0.96), rgba(242, 232, 218, 0.94));
+  background: linear-gradient(145deg, rgba(255, 250, 244, 0.98), rgba(242, 232, 218, 0.96));
   box-shadow:
     0 28px 68px rgba(18, 2, 5, 0.56),
     0 10px 26px rgba(24, 4, 7, 0.34),
     0 0 0 1px rgba(228, 197, 131, 0.24);
-  transform: translateZ(8px);
 }
 
 .intro-card-surface {
@@ -323,7 +316,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateZ(20px);
 }
 
 .intro-heart-disc {
@@ -421,22 +413,25 @@ button {
 
 .intro-card-names {
   font-family: var(--font-editorial);
-  font-weight: 400;
-  font-size: clamp(1.75rem, 6.2vw, 2.55rem);
-  line-height: 1.02;
-  color: var(--burgundy);
+  font-weight: 500;
+  font-size: clamp(1.85rem, 6.4vw, 2.65rem);
+  line-height: 1.04;
+  color: #460f15;
   display: flex;
   flex-direction: column;
   align-items: center;
   letter-spacing: 0.015em;
   margin-bottom: clamp(10px, 2.2vw, 14px);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .intro-card-amp {
   font-style: italic;
-  font-size: 0.54em;
+  font-weight: 400;
+  font-size: 0.58em;
   line-height: 1.15;
-  color: rgba(78, 18, 23, 0.82);
+  color: #5a151d;
   margin: 2px 0;
 }
 
@@ -473,19 +468,19 @@ button {
 
 .intro-card-date {
   font-family: var(--font-editorial);
-  font-size: clamp(0.95rem, 3.2vw, 1.18rem);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--text-body-dark);
+  font-size: clamp(1rem, 3.3vw, 1.22rem);
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  color: #3f0e14;
   margin-bottom: clamp(6px, 1.5vw, 10px);
 }
 
 .intro-card-sub {
   font-family: var(--font-editorial);
-  font-size: clamp(0.9rem, 3vw, 1.08rem);
-  font-weight: 400;
+  font-size: clamp(0.95rem, 3.1vw, 1.12rem);
+  font-weight: 500;
   letter-spacing: 0.03em;
-  color: rgba(78, 18, 23, 0.76);
+  color: #4e1217;
   margin-bottom: clamp(16px, 3.4vw, 22px);
 }
 
@@ -496,15 +491,15 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 112px;
-  padding: 10px 30px;
+  min-width: 116px;
+  padding: 10px 32px;
   border-radius: 999px;
-  border: 1px solid rgba(228, 197, 131, 0.36);
+  border: 1px solid rgba(228, 197, 131, 0.42);
   background: linear-gradient(180deg, #5d1620 0%, #4e1217 65%, #3d0c11 100%);
-  color: #fffaf4;
+  color: #ffffff;
   font-family: var(--font-editorial);
-  font-size: clamp(0.96rem, 3vw, 1.06rem);
-  font-weight: 500;
+  font-size: clamp(1rem, 3.1vw, 1.1rem);
+  font-weight: 600;
   letter-spacing: 0.06em;
   box-shadow:
     0 10px 24px rgba(56, 10, 15, 0.34),
@@ -673,7 +668,7 @@ button {
   top: 47%;
   width: clamp(90px, 21vw, 144px);
   z-index: 4;
-  transform: translate3d(calc(var(--intro-px, 0) * -8px), calc(-50% + var(--intro-py, 0) * -6px), 26px);
+  transform: translate3d(calc(var(--intro-px, 0) * -8px), calc(-50% + var(--intro-py, 0) * -6px), 0);
 }
 
 .living-bouquet--intro-left .living-bouquet__rig {
@@ -692,7 +687,7 @@ button {
   top: 47%;
   width: clamp(90px, 21vw, 144px);
   z-index: 4;
-  transform: translate3d(calc(var(--intro-px, 0) * 8px), calc(-50% + var(--intro-py, 0) * -6px), 26px);
+  transform: translate3d(calc(var(--intro-px, 0) * 8px), calc(-50% + var(--intro-py, 0) * -6px), 0);
 }
 
 .living-bouquet--intro-right .living-bouquet__main {

@@ -58,9 +58,6 @@ export function IntroCurtain({
       curX += (targetX - curX) * damp;
       curY += (targetY - curY) * damp;
 
-      const maxDeg = 4.6;
-      card.style.setProperty('--intro-rx', `${(-curY * maxDeg).toFixed(3)}deg`);
-      card.style.setProperty('--intro-ry', `${(curX * maxDeg).toFixed(3)}deg`);
       card.style.setProperty('--intro-px', curX.toFixed(3));
       card.style.setProperty('--intro-py', curY.toFixed(3));
 
