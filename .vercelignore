@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.agents
+docs
+prompt-for-check.md
+reference-wedding-video.mp4
+reception-card-full.jpeg
+*.mp4
+*.mov
+public/images/*.png

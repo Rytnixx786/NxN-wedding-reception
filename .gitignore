@@ -1,6 +1,7 @@
-# Dependencies & build output
+# Dependencies, build output & Vercel local link
 node_modules/
 dist/
+.vercel
 *.tsbuildinfo
 
 # Environment files
@@ -28,3 +29,6 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+.vercel
+.env*
