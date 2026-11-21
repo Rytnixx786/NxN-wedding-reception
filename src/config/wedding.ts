@@ -161,7 +161,7 @@ export const weddingConfig: WeddingConfig = {
 
   parents: {
     groomPrefix: 'Mr. & Mrs.',
-    groomLines: ['Kaikubad', 'Khaleda Haque'],
+    groomLines: ['Md. Kaikubad', 'Khaleda Haque'],
     bridePrefix: 'Mr. & Mrs.',
     brideLines: ['S.M Manzurul Islam', 'Late Kamrun Nahar'],
   },
@@ -173,7 +173,7 @@ export const weddingConfig: WeddingConfig = {
       'The Most Gracious & The Most Merciful”',
     ],
     hostLines: [
-      'We, MR. & MRS. Kaikubad',
+      'We, MR. & MRS. Md. Kaikubad',
       'Cordially Request The Pleasure of Your',
       'Presence & Blessings At The',
       'Wedding Reception of Our Son',
@@ -208,7 +208,7 @@ export const weddingConfig: WeddingConfig = {
     calendarHighlightDay: 19,
     calendarEventTitle: 'Wedding Reception: Mehedi Hasan Nafis & Nishat Tasnim',
     calendarEventDescription:
-      'We joyfully invite you to the wedding reception of Mehedi Hasan Nafis (Son of Mr. & Mrs. Kaikubad) and Nishat Tasnim (Daughter of S.M Manzurul Islam & Late Kamrun Nahar) at Anchor Hall, RAOWA Convention Hall, Mohakhali, Dhaka.',
+      'We joyfully invite you to the wedding reception of Mehedi Hasan Nafis (Son of Mr. & Mrs. Md. Kaikubad) and Nishat Tasnim (Daughter of S.M Manzurul Islam & Late Kamrun Nahar) at Anchor Hall, RAOWA Convention Hall, Mohakhali, Dhaka.',
   },
 
   venue: {
