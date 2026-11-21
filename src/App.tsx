@@ -167,8 +167,10 @@ export function App() {
     if (curtainStage !== 'idle') return;
     clearStageTimers();
 
-    // Always begin from exact top of page cleanly
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    // Always begin from exact top of page cleanly (universal across all iOS/Android WebViews)
+    document.documentElement.classList.add('is-autoscrolling');
+    window.scrollTo(0, 0);
+    document.documentElement.classList.remove('is-autoscrolling');
 
     // Start Bismillah synchronously inside the user gesture with smooth swell
     startMusic(true, true);

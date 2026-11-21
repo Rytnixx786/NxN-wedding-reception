@@ -47,7 +47,8 @@ function setScrollTopInstant(y: number): void {
   const el = document.scrollingElement || document.documentElement;
   el.scrollTop = y;
   if (Math.abs(getScrollTop() - y) > 2) {
-    window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+    // 2-arg scrollTo works universally including older iOS Safari (< 15.4)
+    window.scrollTo(0, y);
   }
 }
 

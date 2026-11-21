@@ -287,12 +287,17 @@ export function AmbientLovesCanvas({ active }: AmbientLovesCanvasProps) {
     }));
 
     const handleResize = () => {
+      const prevWidth = width;
       resize();
-      for (let i = 0; i < hearts.length; i++) {
-        hearts[i].baseX = pickEdgeBiasedX();
-      }
-      for (let i = 0; i < dusts.length; i++) {
-        dusts[i].x = pickEdgeBiasedX();
+      // Only re-distribute horizontal lanes on real width/orientation changes,
+      // NOT when mobile iOS/Android address bars expand/retract during scroll
+      if (Math.abs(width - prevWidth) > 20) {
+        for (let i = 0; i < hearts.length; i++) {
+          hearts[i].baseX = pickEdgeBiasedX();
+        }
+        for (let i = 0; i < dusts.length; i++) {
+          dusts[i].x = pickEdgeBiasedX();
+        }
       }
     };
 
