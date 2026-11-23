@@ -95,6 +95,20 @@ export function CardLightbox({ isOpen, onClose }: CardLightboxProps) {
 
   if (!isOpen) return null;
 
+  const handlePrintCard = () => {
+    document.documentElement.classList.add('is-printing-card');
+    const cleanup = () => {
+      document.documentElement.classList.remove('is-printing-card');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.setTimeout(() => {
+      window.print();
+      // Fallback cleanup for browsers that do not fire afterprint reliably
+      window.setTimeout(cleanup, 1200);
+    }, 30);
+  };
+
   return (
     <div
       className="modal-backdrop"
@@ -124,8 +138,8 @@ export function CardLightbox({ isOpen, onClose }: CardLightboxProps) {
 
         <div className="lightbox-footer-actions">
           <a
-            href={assets.receptionCard}
-            download={`${couple.groomShortName}-and-${couple.brideShortName}-Reception-Card.webp`}
+            href={assets.receptionCardDownload}
+            download={`${couple.groomShortName}-and-${couple.brideShortName}-Reception-Card.jpg`}
             className="lightbox-print-btn"
           >
             <Download size={15} aria-hidden="true" />
@@ -134,7 +148,7 @@ export function CardLightbox({ isOpen, onClose }: CardLightboxProps) {
           <button
             type="button"
             className="lightbox-print-btn lightbox-print-btn--ghost"
-            onClick={() => window.print()}
+            onClick={handlePrintCard}
           >
             <Printer size={15} aria-hidden="true" />
             Print

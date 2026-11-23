@@ -294,7 +294,7 @@ export function App() {
           onNotify={showGlobalToast}
           onUserInteract={stopAutoScroll}
         />
-        <VenueSection />
+        <VenueSection onNotify={showGlobalToast} />
         <OptionalSections />
         <Footer />
       </main>

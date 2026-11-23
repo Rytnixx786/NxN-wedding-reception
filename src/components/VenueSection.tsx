@@ -1,8 +1,38 @@
-import { ExternalLink, Send } from 'lucide-react';
+import { useState } from 'react';
+import { Check, Copy, ExternalLink, Send } from 'lucide-react';
 import { weddingConfig } from '../config/wedding';
 
-export function VenueSection() {
+interface VenueSectionProps {
+  onNotify?: (msg: string) => void;
+}
+
+export function VenueSection({ onNotify }: VenueSectionProps) {
   const { venue, assets } = weddingConfig;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyAddress = async () => {
+    const text = venue.fullAddress;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+      onNotify?.('Venue address copied — paste in Uber, Pathao, or Maps');
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      onNotify?.('Could not copy automatically — please tap Open in Maps');
+    }
+  };
 
   return (
     <section className="venue-section" aria-labelledby="venueHeading">
@@ -58,6 +88,20 @@ export function VenueSection() {
           <ExternalLink size={14} aria-hidden="true" />
           <span>Open in Maps</span>
         </a>
+        <span className="venue-actions-dot" aria-hidden="true">·</span>
+        <button
+          type="button"
+          className={`directions-link directions-link--btn${copied ? ' is-copied' : ''}`}
+          id="copyAddressBtn"
+          onClick={handleCopyAddress}
+        >
+          {copied ? (
+            <Check size={14} aria-hidden="true" />
+          ) : (
+            <Copy size={14} aria-hidden="true" />
+          )}
+          <span>{copied ? 'Copied' : 'Copy address'}</span>
+        </button>
       </div>
     </section>
   );

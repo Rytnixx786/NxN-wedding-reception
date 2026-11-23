@@ -2088,6 +2088,16 @@ button {
   transform: translateY(-1px);
 }
 
+.directions-link--btn {
+  background: transparent;
+  border: none;
+}
+
+.directions-link--btn.is-copied {
+  background: rgba(78, 18, 23, 0.09);
+  color: #3d0c11;
+}
+
 /* ==========================================================================
    CLEAN MINIMAL CLOSING FOOTER
    ========================================================================== */
@@ -2135,7 +2145,7 @@ button {
   font-size: 0.84rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(78, 18, 23, 0.5);
+  color: rgba(78, 18, 23, 0.68);
 }
 
 /* ==========================================================================
@@ -2974,12 +2984,60 @@ button {
 }
 
 @media print {
+  @page {
+    margin: 8mm;
+  }
 
   .intro-curtain,
   .ambient-loves-canvas,
   .floating-dock,
   .modal-close,
-  .lightbox-footer-actions {
+  .lightbox-footer-actions,
+  .global-toast {
     display: none !important;
+  }
+
+  /* Clean 1-page card-only print output when printing from the Card Lightbox */
+  html.is-printing-card body {
+    background: #ffffff !important;
+  }
+
+  html.is-printing-card #invitationMain {
+    display: none !important;
+  }
+
+  html.is-printing-card #cardLightboxModal {
+    position: static !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+  }
+
+  html.is-printing-card .card-lightbox-sheet {
+    max-width: 100% !important;
+    max-height: none !important;
+    box-shadow: none !important;
+  }
+
+  html.is-printing-card .lightbox-3d-tilt,
+  html.is-printing-card .physical-card--lightbox {
+    transform: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  html.is-printing-card .card-specular-sheen {
+    display: none !important;
+  }
+
+  html.is-printing-card .physical-card--lightbox .real-card-img {
+    max-height: 265mm !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
   }
 }

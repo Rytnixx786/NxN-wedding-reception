@@ -85,6 +85,7 @@ export interface WeddingConfig {
     floralBouquet: string;
     waxSeal: string;
     receptionCard: string;
+    receptionCardDownload: string;
   };
   hero: {
     saveTheDateLabel: string;
@@ -243,6 +244,7 @@ export const weddingConfig: WeddingConfig = {
     floralBouquet: '/images/floral-bouquet-cutout.webp',
     waxSeal: '/images/wax-seal-cutout.webp',
     receptionCard: '/images/reception-card-full.webp',
+    receptionCardDownload: '/images/reception-card-full.jpg',
   },
 
   hero: {
