@@ -34,9 +34,16 @@ export function HeroSection({
         />
       </div>
 
-      <p className="save-the-date" data-gsap="hero-save">
-        {hero.saveTheDateLabel}
-      </p>
+      <div className="hero-crown" data-gsap="hero-save">
+        <p className="hero-bismillah" lang="ar" dir="rtl">
+          {hero.bismillahArabic}
+        </p>
+        <div className="hero-crown-sub">
+          <span className="hero-crown-line" aria-hidden="true" />
+          <p className="save-the-date">{hero.saveTheDateLabel}</p>
+          <span className="hero-crown-line" aria-hidden="true" />
+        </div>
+      </div>
 
       {/* Unified 3D Perspective Stationery Stage:
           Envelope, Living 3D Bouquet, Real Reception Card & Wax Seal share ONE

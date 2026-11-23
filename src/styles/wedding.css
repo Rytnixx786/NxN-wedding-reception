@@ -903,7 +903,7 @@ button {
 .hero-section {
   position: relative;
   z-index: 1;
-  padding: clamp(40px, 8vw, 60px) 18px clamp(38px, 7vw, 52px);
+  padding: clamp(26px, 5.5vw, 42px) 18px clamp(38px, 7vw, 52px);
   text-align: center;
   overflow: hidden;
 }
@@ -946,15 +946,54 @@ button {
   opacity: 0;
 }
 
+.hero-crown {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: clamp(22px, 5vw, 34px);
+}
+
+.hero-bismillah {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.38rem, 5.2vw, 1.82rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--burgundy);
+  text-rendering: optimizeLegibility;
+}
+
+.hero-crown-sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(84%, 310px);
+}
+
+.hero-crown-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 152, 82, 0.58),
+    transparent
+  );
+}
+
 .save-the-date {
   position: relative;
   z-index: 2;
   font-family: var(--font-editorial);
-  font-size: clamp(0.92rem, 3vw, 1.08rem);
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  color: var(--burgundy);
-  margin-bottom: clamp(32px, 7vw, 46px);
+  font-size: clamp(0.76rem, 2.5vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: rgba(78, 18, 23, 0.84);
+  white-space: nowrap;
 }
 
 /* ---------- UNIFIED 3D ENVELOPE + BOUQUET + CARD STAGE ---------- */

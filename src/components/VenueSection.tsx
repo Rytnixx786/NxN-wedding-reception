@@ -27,7 +27,7 @@ export function VenueSection({ onNotify }: VenueSectionProps) {
         document.body.removeChild(ta);
       }
       setCopied(true);
-      onNotify?.('Venue address copied — paste in Uber, Pathao, or Maps');
+      onNotify?.('Venue address copied');
       window.setTimeout(() => setCopied(false), 2200);
     } catch {
       onNotify?.('Could not copy automatically — please tap Open in Maps');

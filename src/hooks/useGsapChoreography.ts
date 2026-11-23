@@ -61,13 +61,12 @@ export function useGsapChoreography({
       )
         .fromTo(
           '[data-gsap="hero-save"]',
-          { opacity: 0, y: 18, letterSpacing: '0.38em' },
+          { opacity: 0, y: 16 },
           {
             opacity: 1,
             y: 0,
-            letterSpacing: '0.28em',
             duration: 0.9,
-            clearProps: 'transform,letterSpacing',
+            clearProps: 'transform',
           },
           0.06
         )

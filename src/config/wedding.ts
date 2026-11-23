@@ -88,6 +88,7 @@ export interface WeddingConfig {
     receptionCardDownload: string;
   };
   hero: {
+    bismillahArabic: string;
     saveTheDateLabel: string;
     introKicker: string;
     introDateLine: string;
@@ -248,7 +249,8 @@ export const weddingConfig: WeddingConfig = {
   },
 
   hero: {
-    saveTheDateLabel: 'SAVE THE DATE',
+    bismillahArabic: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+    saveTheDateLabel: 'WEDDING RECEPTION',
     introKicker: 'THE WEDDING CELEBRATION OF',
     introDateLine: 'TUESDAY · JANUARY 19, 2027',
     introCardDate: 'January 19, 2027',
